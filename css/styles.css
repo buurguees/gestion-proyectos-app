@@ -1,0 +1,75 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9ecef;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+#checklist-container {
+    width: 90%;
+    max-width: 800px;
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.section-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(72, 255, 72, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.progress-background {
+    position: relative;
+    background-color: rgba(72, 255, 72, 0.3);
+    height: 30px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.progress-fill {
+    background-color: #4caf50;
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.task-options-button {
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: color 0.3s;
+}
