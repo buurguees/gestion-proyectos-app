@@ -67,6 +67,7 @@ body {
 }
 
 .section-header:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Color suave al hacer hover */
 }
 
 .section-header span {

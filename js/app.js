@@ -1,10 +1,13 @@
 // Archivo JavaScript para la lógica principal del proyecto de gestión de proyectos
 
 import { createSection } from './components/section.js';
-import { checklistData } from './components/utils.js';
+import { saveChecklistData, loadChecklistData, defaultChecklistData } from './components/utils.js';
 
 // Contenedor principal
 const app = document.getElementById('checklist-container');
+
+// Datos iniciales del checklist
+const checklistData = loadChecklistData().length > 0 ? loadChecklistData() : defaultChecklistData;
 
 // Renderiza la plantilla principal
 function renderChecklistTemplate() {
@@ -12,7 +15,7 @@ function renderChecklistTemplate() {
 
     checklistData.forEach(section => {
         const sectionHtml = createSection(section);
-        app.insertAdjacentHTML('beforeend', sectionHtml); // Usar insertAdjacentHTML para evitar sobrescribir eventos
+        app.insertAdjacentHTML('beforeend', sectionHtml); // Usar insertAdjacentHTML para agregar HTML
     });
 
     // Añadir event listeners para los títulos editables
@@ -32,67 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Función para cambiar el título de una sección y actualizar los datos globales
 window.updateSectionTitle = function (event, sectionId) {
-    const newTitle = event.target.innerText;
+    const newTitle = event.target.innerText.trim();
     const section = checklistData.find(s => s.id === sectionId);
-    if (section) {
+    if (section && newTitle) {
         section.title = newTitle;
-        saveChecklistData();
+        saveChecklistData(checklistData);
     }
-};
-
-// Función para añadir una nueva sección
-window.addNewSection = function () {
-    const newSectionId = checklistData.length + 1;
-    const newSection = {
-        id: newSectionId,
-        title: `Nueva Sección ${newSectionId}`,
-        tasks: [],
-        open: true,
-        progress: 0
-    };
-    checklistData.push(newSection);
-    saveChecklistData();
-    renderChecklistTemplate();
 };
 
 // Función para alternar el estado abierto/cerrado de una sección
 window.toggleSection = function (sectionId) {
     const section = checklistData.find(s => s.id === sectionId);
     if (section) {
-        section.open = !section.open;
-        saveChecklistData();
-        renderChecklistTemplate();
+        section.open = !section.open; // Cambiar el estado 'open'
+        saveChecklistData(checklistData);
+        renderChecklistTemplate(); // Renderizar la plantilla para actualizar la vista
     }
 };
-
-// Guarda los datos del checklist en el almacenamiento local
-function saveChecklistData() {
-    localStorage.setItem('checklistData', JSON.stringify(checklistData));
-}
-
-// Carga los datos del checklist desde el almacenamiento local
-function loadChecklistData() {
-    const savedData = localStorage.getItem('checklistData');
-    return savedData ? JSON.parse(savedData) : [];
-}
-
-// Datos iniciales del checklist (si no hay datos en el almacenamiento local)
-const defaultChecklistData = [
-    {
-        id: 1,
-        title: 'Sección de Ejemplo',
-        tasks: [
-            { id: 1, title: 'Tarea 1', completed: false },
-            { id: 2, title: 'Tarea 2', completed: false },
-            { id: 3, title: 'Tarea 3', completed: true }
-        ],
-        open: true,
-        progress: 33
-    }
-];
-
-// Inicializa los datos
-const checklistData = loadChecklistData().length > 0 ? loadChecklistData() : defaultChecklistData;
-
-// Renderiza la plantilla principal al iniciar el script
-renderChecklistTemplate();
